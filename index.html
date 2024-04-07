@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      overflow-x: hidden;
+      height: fit-content;
+      font-family: "Courier New", Courier, monospace;
+    }
+    .container {
+      width: 100vw;
+      height: 100vh;
+      text-align: center;
+    }
+    .todo {
+      width: 50vw;
+      height: fit-content;
+      /* background-color: green; */
+      margin: 20px auto;
+      border: 1px solid black;
+    }
+    input {
+      height: 40px;
+      padding: 10px;
+      font-size: 80%;
+      margin-top: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.353);
+      border-radius: 5px;
+      width: 70%;
+    }
+    hr {
+      margin: 0 10px;
+    }
+    .btn {
+      display: block;
+      margin: 5px auto;
+      background-color: black;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+    }
+    .box {
+      width: 50vw;
+      height: fit-content;
+      /* background-color: grey; */
+      margin: 0 auto;
+    }
+    .task {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 10px;
+      background-color: grey;
+      border-bottom: 1px solid rgb(42, 41, 41);
+    }
+    .btns {
+      padding: 4px;
+      border: none;
+      border-radius: 2px;
+      background-color: rgba(255, 255, 255, 0.968);
+    }
+    h5 {
+      font-size: 15px;
+    }
+    @media (max-width: 800px) {
+      .todo,
+      .box {
+        width: 80vw;
+      }
+    }
+  </style>
+  <body>
+    <div class="container">
+      <div class="todo">
+        <h1 class="list">TODO LIST</h1>
+        <hr />
+        <input type="text" placeholder="add item..." />
+        <button class="btn">ADD</button>
+        <div class="todoDisplay" id="todo"></div>
+      </div>
+      <div class="box">
+        <!-- <div class="task">
+          <h5>Task 1</h5>
+          <div class="taskbtn">
+            <button class="dels btns">Delete</button>
+            <button class="edit btns">Edit</button>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </body>
+  <script>
+    let input = document.querySelector("input");
+    let btn = document.querySelector(".btn");
+    let box = document.querySelector(".box");
+    let data = [];
+    function del(i) {
+      data.splice(i, 1);
+      addTask();
+    }
+    function edit(i) {
+      let recreate = prompt("enter your edit");
+      if (recreate === null) {
+        return;
+      }
+      data[i] = recreate;
+      addTask();
+    }
+    function addTask() {
+      box.innerHTML = "";
+      data.forEach(function (val, i) {
+        box.innerHTML += `<div class="task">
+                        <h5>${val}</h5>
+                        <div class="taskbtn">
+                          <button class="dels btns" id='btn${i}' onclick="del(${i})">Delete</button>
+                          <button class="edit btns" onclick='edit(${i})'>Edit</button>
+                        </div>
+                      </div>`;
+      });
+    }
+    function update() {
+      if (input.value === "" || input.value.trim() === "") {
+        alert("Please enter a value");
+        return;
+      }
+      data.push(input.value.trim());
+      addTask();
+      input.value = "";
+    }
+    btn.addEventListener("click", update);
+  </script>
+</html>
