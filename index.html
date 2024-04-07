@@ -103,17 +103,14 @@
     let btn = document.querySelector(".btn");
     let box = document.querySelector(".box");
     let data = [];
+    let editIndex = false;
     function del(i) {
       data.splice(i, 1);
       addTask();
     }
     function edit(i) {
-      let recreate = prompt("enter your edit");
-      if (recreate === null) {
-        return;
-      }
-      data[i] = recreate;
-      addTask();
+      editIndex = i;
+      input.value = data[i];
     }
     function addTask() {
       box.innerHTML = "";
@@ -132,7 +129,12 @@
         alert("Please enter a value");
         return;
       }
-      data.push(input.value.trim());
+      if (editIndex !== false) {
+        data.splice(editIndex, 1, input.value.trim());
+        editIndex = false;
+      } else {
+        data.push(input.value.trim());
+      }
       addTask();
       input.value = "";
     }
